@@ -30,13 +30,28 @@ func BootMysqlDB() *ConnectedSql{
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(DB)
 	err = DB.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	fmt.Println("success")
+
 	// 外部のDBをConnectedSQLとして公開
 	conn := ConnectedSql{DB: DB}
 
 	return &conn
+}
+
+func (conn *ConnectedSql) Exec(cmd string, args ...interface{})(database.Result, error){
+	result, err := conn.DB.Exec(cmd, args...)
+	if err != nil {
+		return nil, err
+	}
+	return &SqlResult{Result: result}, nil
+}
+
+type SqlResult struct {
+	Result sql.Result
 }

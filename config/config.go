@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+	"fmt"
 	"os"
 )
 
@@ -28,6 +29,7 @@ func LoadConfig(){
 	// サーバー接続設定
 	flag.StringVar(&addr, "addr", ":8080", "tcp host:port to connect")
 	flag.Parse()
+	fmt.Println(flag.Args())
 
 	// TODO: env設定
 	user := os.Getenv("MYSQL_USER")
