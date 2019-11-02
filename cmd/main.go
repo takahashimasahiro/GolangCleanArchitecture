@@ -5,7 +5,7 @@ import (
 	"../infrastructure/datastore"
 	"../infrastructure/router"
 	"../infrastructure/server"
-	"../infrastructure/controllers"
+	"../interface/controllers"
 	"fmt"
 	"log"
 )
@@ -18,11 +18,11 @@ func main() {
 	connectedDB := datastore.BootMysqlDB()
 	fmt.Println(connectedDB)
 	// interactorを作成
-	interactor := interactor.NetInteractor(connectedDB)
+	interactor := controllers.NetInteractor(connectedDB)
 	// AppHandlerの取得
 	appController := interactor.NewAppController()
 	// Routerの起動
-	serv := server.new()
+	serv := server.New()
 	router.BootRouter(serv, appController)
 	// DBのClose
 	defer func() {
