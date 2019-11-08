@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"../../config"
+	"../../interface/database"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -25,11 +27,13 @@ func BootMysqlDB() *ConnectedSql{
 	)
 	fmt.Println(connectionCmd)
 
+	// 接続情報
 	var err error
 	DB, err := sql.Open("mysql", connectionCmd)
 	if err != nil {
 		log.Fatal(err)
 	}
+	// 接続確認
 	fmt.Println(DB)
 	err = DB.Ping()
 	if err != nil {
@@ -52,6 +56,46 @@ func (conn *ConnectedSql) Exec(cmd string, args ...interface{})(database.Result,
 	return &SqlResult{Result: result}, nil
 }
 
+func (conn *ConnectedSql) Query(cmd string, args ...interface{}) (database.Rows, error) {
+	rows, err := conn.DB.Query(cmd, args...)
+	if err := nil {
+		return nil, err
+	}
+	return &SqlRows{ Rows: row}
+}
+
 type SqlResult struct {
 	Result sql.Result
+}
+
+func (r *SqlResult) LastInsertId() (int64, error) {
+	return r.Result.LastInsertId()
+}
+
+func (r *SqlResult) RowsAffected() (int64, error) {
+	return r.Result.RowsAffected()
+}
+
+type SqlRows struct {
+	Rows *sql.Rows
+}
+
+func (r SqlRows) Scans(ctr ...interface{}) error {
+	return r.Rows.Scan(ctr...)
+}
+
+func (r SqlRows) Next() bool {
+	return r.Rows.Next()
+}
+
+func (r SqlRows) Close() error {
+	return r.Rows.Close()
+}
+
+type SqlRow struct {
+	Row *sql.Row
+}
+
+func (r SqlRow) Scan(ctr ...interface{}) error {
+	return r.Row.Scan(ctr...)
 }

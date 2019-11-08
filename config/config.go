@@ -37,7 +37,7 @@ func LoadConfig(){
 	host := os.Getenv("MYSQL_HOST")
 	port := os.Getenv("MYSQL_PORT")
 	database := os.Getenv("MYSQL_DATABASE")
-// MySQLで接続
+	// MySQLで接続
 	Conf = Config{
 		Database: Database{
 			Host: host,
