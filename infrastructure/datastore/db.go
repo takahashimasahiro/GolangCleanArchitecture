@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+
 	"../../config"
 	"../../interface/database"
 
@@ -14,7 +15,7 @@ type ConnectedSql struct {
 	DB *sql.DB
 }
 
-func BootMysqlDB() *ConnectedSql{
+func BootMysqlDB() *ConnectedSql {
 
 	// configからDBの読み取り
 	connectionCmd := fmt.Sprintf(
@@ -48,7 +49,7 @@ func BootMysqlDB() *ConnectedSql{
 	return &conn
 }
 
-func (conn *ConnectedSql) Exec(cmd string, args ...interface{})(database.Result, error){
+func (conn *ConnectedSql) Exec(cmd string, args ...interface{}) (database.Result, error) {
 	result, err := conn.DB.Exec(cmd, args...)
 	if err != nil {
 		return nil, err
@@ -58,10 +59,10 @@ func (conn *ConnectedSql) Exec(cmd string, args ...interface{})(database.Result,
 
 func (conn *ConnectedSql) Query(cmd string, args ...interface{}) (database.Rows, error) {
 	rows, err := conn.DB.Query(cmd, args...)
-	if err := nil {
+	if err != nil {
 		return nil, err
 	}
-	return &SqlRows{ Rows: row}
+	return &SqlRows{Rows: rows}, nil
 }
 
 type SqlResult struct {

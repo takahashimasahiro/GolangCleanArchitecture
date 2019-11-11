@@ -1,8 +1,9 @@
 package database
 
 import (
-	"../../domain"
 	"log"
+
+	"../../domain"
 )
 
 type userRepository struct {

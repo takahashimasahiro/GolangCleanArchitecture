@@ -1,7 +1,7 @@
 package domain
 
 type User struct {
-	UserID string
+	UserID    string
 	AuthToken string
-	Name string
+	Name      string
 }

@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"../database"
-	"../network"
-	"../../usecase/service"
 	"encoding/json"
 	"log"
+
+	"../../usecase/service"
+	"../database"
+	"../network"
 )
 
 type authController struct {
@@ -44,7 +45,7 @@ func (ac *authController) CreateUser(ar network.ApiResponser) {
 	ar.Success(authCreateResponse)
 }
 
-type AuthCreateRequest struct{
+type AuthCreateRequest struct {
 	Name string `json:"name"`
 }
 

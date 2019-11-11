@@ -1,13 +1,14 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
 	"../config"
 	"../infrastructure/datastore"
 	"../infrastructure/router"
 	"../infrastructure/server"
 	"../interface/controllers"
-	"fmt"
-	"log"
 )
 
 func main() {

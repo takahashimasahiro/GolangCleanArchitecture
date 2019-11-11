@@ -2,7 +2,7 @@ package database
 
 type ConnectedDB interface {
 	Exec(string, ...interface{}) (Result, error)
-	Query(string, ...interface{})(Rows, error)
+	Query(string, ...interface{}) (Rows, error)
 	QueryRow(string, ...interface{}) Row
 }
 

@@ -11,11 +11,11 @@ type Config struct {
 	Server
 }
 type Database struct {
-	Host string
-	Port string
-	User string
+	Host     string
+	Port     string
+	User     string
 	Password string
-	Db string
+	Db       string
 }
 
 type Server struct {
@@ -24,7 +24,7 @@ type Server struct {
 
 var Conf Config
 
-func LoadConfig(){
+func LoadConfig() {
 	var addr string
 	// サーバー接続設定
 	flag.StringVar(&addr, "addr", ":8080", "tcp host:port to connect")
@@ -40,11 +40,11 @@ func LoadConfig(){
 	// MySQLで接続
 	Conf = Config{
 		Database: Database{
-			Host: host,
-			Port: port,
-			User: user,
+			Host:     host,
+			Port:     port,
+			User:     user,
 			Password: password,
-			Db: database,
+			Db:       database,
 		},
 		Server: Server{
 			Address: addr,

@@ -20,14 +20,14 @@ func NewInteractor(db database.ConnectedDB) Interactor {
 
 func (i *interactor) NewAppController() AppController {
 	return &appController{
-		middleware: middleware.NewMiddleWare(i.db),
+		middleware:     middleware.NewMiddleWare(i.db),
 		authController: NewAuthController(i.db),
 		userController: NewUserController(i.db),
 	}
 }
 
 type appController struct {
-	middleware middleware.Middleware
+	middleware     middleware.Middleware
 	authController AuthController
 	userController UserController
 }
@@ -40,14 +40,14 @@ type AppController interface {
 	UpdateUser(ar network.ApiResponser)
 }
 
-func (ac *appController) CreateUser(ar network.ApiResponser){
+func (ac *appController) CreateUser(ar network.ApiResponser) {
 
 }
 
-func (ac *appController) GetUser(ar network.ApiResponser){
+func (ac *appController) GetUser(ar network.ApiResponser) {
 
 }
 
-func (ac *appController) UpdateUser(ar network.ApiResponser){
+func (ac *appController) UpdateUser(ar network.ApiResponser) {
 
 }
