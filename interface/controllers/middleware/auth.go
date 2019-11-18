@@ -9,7 +9,7 @@ import (
 )
 
 type middleware struct {
-	userRepository database.userRepository
+	userRepository database.UserRepository
 }
 
 type Middleware interface {

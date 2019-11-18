@@ -41,13 +41,13 @@ type AppController interface {
 }
 
 func (ac *appController) CreateUser(ar network.ApiResponser) {
-
+	ac.authController.CreateUser(ar)
 }
 
 func (ac *appController) GetUser(ar network.ApiResponser) {
-
+	ac.userController.GetUser(ac.middleware.UserAuthorize(ar))
 }
 
 func (ac *appController) UpdateUser(ar network.ApiResponser) {
-
+	ac.userController.UpdateUser(ac.middleware.UserAuthorize(ar))
 }
