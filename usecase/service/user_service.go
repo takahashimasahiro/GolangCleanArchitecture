@@ -10,7 +10,7 @@ type userService struct {
 }
 
 type UserService interface {
-	GetUser(userID *string) (domain.User, error)
+	GetUser(userID *string) (*domain.User, error)
 	UpdateUser(userID, newName *string) error
 }
 
@@ -29,7 +29,7 @@ func (userService *userService) GetUser(userID *string) (*domain.User, error) {
 
 func (userService *userService) UpdateUser(userID, newName *string) error {
 
-	err := userService.UserRepository.UpdateByUserID(*userID, newName)
+	err := userService.UserRepository.UpdateByUserID(*userID, *newName)
 	if err != nil {
 		return err
 	}

@@ -1,13 +1,12 @@
 package server
 
 import (
+	"../../interface/network"
 	"context"
 	"encoding/json"
 	"io"
 	"log"
 	"net/http"
-
-	"../../interface/network"
 )
 
 type server struct{}
@@ -23,10 +22,10 @@ func New() Server {
 }
 
 func (s *server) Start(addr string) {
-	log.Panicln("Server running...")
+	log.Println("Server running...")
 	err := http.ListenAndServe(addr, nil)
 	if err != nil {
-		log.Fatalf("Listen and server failed. %+v", err)
+		log.Fatalf("Listen and serve failed. %+v", err)
 	}
 }
 
@@ -38,13 +37,13 @@ func (s *server) Post(endPoint string, apiFunc func(hc *HttpContext)) {
 	http.HandleFunc(endPoint, httpMethod(apiFunc, http.MethodPost))
 }
 
-func httpMethod(apiFunc func(hc *HttpContext), method string) http.HandleFunc {
+func httpMethod(apiFunc func(hc *HttpContext), method string) http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 
 		// CORS対応
 		// https://developer.mozilla.org/ja/docs/Web/HTTP/CORS
 		writer.Header().Add("Access-Control-Allow-Origin", "*")
-		writer.Header().Add("Access-Control-Allow-Headers", "Context-Type,Accept,Origin,x-token")
+		writer.Header().Add("Access-Control-Allow-Headers", "Content-Type,Accept,Origin,x-token")
 
 		// CORS プリフライトリクエストは処理を通さない
 		if request.Method == http.MethodOptions {
@@ -60,12 +59,12 @@ func httpMethod(apiFunc func(hc *HttpContext), method string) http.HandleFunc {
 
 		writer.Header().Add("Content-Type", "application/json")
 
-		HttpContext := HttpContext{
+		httpContext := HttpContext{
 			ResponseWriter: writer,
 			Request:        HttpRequest{Request: *request},
 		}
 
-		apiFunc(&HttpContext)
+		apiFunc(&httpContext)
 	}
 }
 
@@ -88,7 +87,7 @@ func (hc *HttpContext) SetRequestContext(ctx context.Context) {
 }
 
 func (hc *HttpContext) GetRequestContext() context.Context {
-	return hc.Request.Content()
+	return hc.Request.Context()
 }
 
 func (hc *HttpContext) Success(jsonData interface{}) {
@@ -128,8 +127,8 @@ func (hr *HttpRequest) GetBody() io.Reader {
 	return hr.Request.Body
 }
 
-func (hr *HttpRequest) GetHeaderValue(key string) string {
-	return hr.Request.Header.Get(key)
+func (hr *HttpRequest) GetHeaderValue(Key string) string {
+	return hr.Request.Header.Get(Key)
 }
 
 func (hr *HttpRequest) Context() context.Context {

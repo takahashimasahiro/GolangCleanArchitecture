@@ -18,8 +18,8 @@ func main() {
 	// DB起動
 	connectedDB := datastore.BootMysqlDB()
 	fmt.Println(connectedDB)
-	// interactorを作成
-	interactor := controllers.NetInteractor(connectedDB)
+	// intaractorを作成
+	interactor := controllers.NewInteractor(connectedDB)
 	// AppHandlerの取得
 	appController := interactor.NewAppController()
 	// Routerの起動
@@ -27,7 +27,7 @@ func main() {
 	router.BootRouter(serv, appController)
 	// DBのClose
 	defer func() {
-		if err := connectedDB.DB.close(); err != nil {
+		if err := connectedDB.DB.Close(); err != nil {
 			log.Fatal(fmt.Sprintf("Failed to close: %v", err))
 		}
 	}()

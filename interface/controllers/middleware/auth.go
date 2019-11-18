@@ -12,17 +12,17 @@ type middleware struct {
 	userRepository database.UserRepository
 }
 
-type Middleware interface {
+type MiddleWare interface {
 	UserAuthorize(ar network.ApiResponser) network.ApiResponser
 }
 
-func NewMiddleware(db database.ConnectedDB) Middleware {
+func NewMiddleWare(db database.ConnectedDB) MiddleWare {
 	return &middleware{
 		userRepository: database.NewUserRepository(db),
 	}
 }
 
-func (mv *middleware) UserAuthorize(ar network.ApiResponser) network.ApiResponser {
+func (mw *middleware) UserAuthorize(ar network.ApiResponser) network.ApiResponser {
 	ctx := ar.GetRequestContext()
 	if ctx == nil {
 		ctx = context.Background()
@@ -33,7 +33,7 @@ func (mv *middleware) UserAuthorize(ar network.ApiResponser) network.ApiResponse
 		ar.BadRequest("x-token is empty")
 	}
 
-	user, err := mv.userRepository.FindByAuthToken(token)
+	user, err := mw.userRepository.FindByAuthToken(token)
 	if err != nil {
 		ar.InternalServerError("User is not found: Not matching token found")
 	}

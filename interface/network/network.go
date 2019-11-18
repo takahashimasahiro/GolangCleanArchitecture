@@ -11,7 +11,7 @@ type ApiResponser interface {
 	SetRequestContext(context.Context)
 	GetRequestContext() context.Context
 	Success(interface{})
-	BadRequset(string)
+	BadRequest(string)
 	InternalServerError(string)
 }
 
@@ -21,5 +21,5 @@ type ResponseWriter interface {
 }
 type Request interface {
 	GetBody() io.Reader
-	GetDeaderValue(string) string
+	GetHeaderValue(string) string
 }

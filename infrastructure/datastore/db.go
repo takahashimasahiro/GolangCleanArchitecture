@@ -65,6 +65,11 @@ func (conn *ConnectedSql) Query(cmd string, args ...interface{}) (database.Rows,
 	return &SqlRows{Rows: rows}, nil
 }
 
+func (conn *ConnectedSql) QueryRow(cmd string, args ...interface{}) database.Row {
+	row := conn.DB.QueryRow(cmd, args...)
+	return &SqlRow{Row: row}
+}
+
 type SqlResult struct {
 	Result sql.Result
 }
@@ -81,7 +86,7 @@ type SqlRows struct {
 	Rows *sql.Rows
 }
 
-func (r SqlRows) Scans(ctr ...interface{}) error {
+func (r SqlRows) Scan(ctr ...interface{}) error {
 	return r.Rows.Scan(ctr...)
 }
 

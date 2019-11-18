@@ -1,17 +1,18 @@
 package controllers
 
 import (
-	"../database"
-	"../dcontext"
-	"../network"
-	"../../usecase/service"
 	"encoding/json"
 	"errors"
 	"log"
+
+	"../../usecase/service"
+	"../database"
+	"../dcontext"
+	"../network"
 )
 
 type userController struct {
-	userService service.userService
+	userService service.UserService
 }
 
 type UserController interface {
@@ -22,14 +23,14 @@ type UserController interface {
 func NewUserController(db database.ConnectedDB) UserController {
 	return &userController{
 		userService: service.NewUserService(
-			database.NewUserController
+			database.NewUserRepository(db),
 		),
 	}
 }
 
 func (uc *userController) GetUser(ar network.ApiResponser) {
 	ctx := ar.GetRequestContext()
-	userID := dcontext.GetUserIDFormContext(ctx)
+	userID := dcontext.GetUserIDFromContext(ctx)
 	if len(userID) == 0 {
 		log.Println(errors.New("userID is empty"))
 		ar.InternalServerError("Internal Server Error")
@@ -42,7 +43,7 @@ func (uc *userController) GetUser(ar network.ApiResponser) {
 	}
 
 	userGetResponse := UserGetResponse{
-		Name: user.name,
+		Name: user.Name,
 	}
 
 	ar.Success(userGetResponse)
@@ -50,7 +51,7 @@ func (uc *userController) GetUser(ar network.ApiResponser) {
 
 func (uc *userController) UpdateUser(ar network.ApiResponser) {
 	var userUpdateRequest UserUpdateRequest
-	err := json.NewDecoder(ar.GetRequest().GetBody().Decode(&userUpdateRequest))
+	err := json.NewDecoder(ar.GetRequest().GetBody()).Decode(&userUpdateRequest)
 	if err != nil {
 		log.Printf("%+v\n", err)
 		ar.BadRequest("Invalid Request")
@@ -58,21 +59,20 @@ func (uc *userController) UpdateUser(ar network.ApiResponser) {
 	}
 
 	ctx := ar.GetRequestContext()
-	userID := dcontext.GetUserIDFormContext(ctx)
+	userID := dcontext.GetUserIDFromContext(ctx)
 	if len(userID) == 0 {
 		log.Println(errors.New("userID is empty"))
 		ar.InternalServerError("Internal Server Error")
 		return
 	}
 
-	err = uc.userService.UpdateUser(&userID, & userUpdateRequest.Name)
+	err = uc.userService.UpdateUser(&userID, &userUpdateRequest.Name)
 	if err != nil {
 		return
 	}
 
 	ar.Success(200)
 }
-
 
 type UserGetResponse struct {
 	Name string `json:"name"`

@@ -27,7 +27,7 @@ func (i *interactor) NewAppController() AppController {
 }
 
 type appController struct {
-	middleware     middleware.Middleware
+	middleware     middleware.MiddleWare
 	authController AuthController
 	userController UserController
 }
