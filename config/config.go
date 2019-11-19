@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"log"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -30,6 +32,12 @@ func LoadConfig() {
 	flag.StringVar(&addr, "addr", ":8080", "tcp host:port to connect")
 	flag.Parse()
 	fmt.Println(flag.Args())
+
+	// .envファイル読み込み
+	err := godotenv.Load()
+	if err != nil {
+			log.Fatal("Error loading .env file")
+	}
 
 	// TODO: env設定
 	user := os.Getenv("MYSQL_USER")

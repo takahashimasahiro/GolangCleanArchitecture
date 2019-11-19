@@ -26,7 +26,7 @@ func BootMysqlDB() *ConnectedSql {
 		config.Conf.Database.Port,
 		config.Conf.Database.Db,
 	)
-	// fmt.Println(connectionCmd)
+	fmt.Println(connectionCmd)
 
 	// 接続情報
 	var err error
