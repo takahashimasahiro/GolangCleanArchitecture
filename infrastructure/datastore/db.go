@@ -26,7 +26,7 @@ func BootMysqlDB() *ConnectedSql {
 		config.Conf.Database.Port,
 		config.Conf.Database.Db,
 	)
-	fmt.Println(connectionCmd)
+	// fmt.Println(connectionCmd)
 
 	// 接続情報
 	var err error
@@ -35,12 +35,12 @@ func BootMysqlDB() *ConnectedSql {
 		log.Fatal(err)
 	}
 	// 接続確認
+	fmt.Println("接続確認")
 	fmt.Println(DB)
 	err = DB.Ping()
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	fmt.Println("success")
 
 	// 外部のDBをConnectedSQLとして公開
