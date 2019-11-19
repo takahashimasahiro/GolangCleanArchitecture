@@ -39,17 +39,11 @@ func LoadConfig() {
 			log.Fatal("Error loading .env file")
 	}
 
-	// TODO: env設定
 	user := os.Getenv("MYSQL_USER")
-	fmt.Println(os.Getenv("MYSQL_USER"))
 	password := os.Getenv("MYSQL_PASSWORD")
-	fmt.Println(os.Getenv("MYSQL_PASSWORD"))
 	host := os.Getenv("MYSQL_HOST")
-	fmt.Println(os.Getenv("MYSQL_HOST"))
 	port := os.Getenv("MYSQL_PORT")
-	fmt.Println(os.Getenv("MYSQL_PORT"))
 	database := os.Getenv("MYSQL_DATABASE")
-	fmt.Println(os.Getenv("MYSQL_DATABASE"))
 	// MySQLで接続
 	Conf = Config{
 		Database: Database{
