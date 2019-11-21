@@ -6,5 +6,9 @@ https://qiita.com/mani_transm/items/21534685552a520c8771 ( https://github.com/ma
 
 ## command
 
+### build
+make build
+
 ### run
-go run cmd/main.go
+make up
+

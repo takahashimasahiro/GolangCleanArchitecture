@@ -30,21 +30,19 @@ func BootMysqlDB() *ConnectedSql {
 
 	// 接続情報
 	var err error
-	DB, err := sql.Open("mysql", connectionCmd)
+	db, err := sql.Open("mysql", connectionCmd)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	// 接続確認
-	fmt.Println("接続確認")
-	fmt.Println(DB)
-	err = DB.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("success")
+	// err = db.Ping()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	// 外部のDBをConnectedSQLとして公開
-	conn := ConnectedSql{DB: DB}
+	conn := ConnectedSql{DB: db}
 
 	return &conn
 }
