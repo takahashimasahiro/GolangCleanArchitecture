@@ -6,4 +6,3 @@ CREATE TABLE `user` (
   INDEX `idx_authToken` (`auth_token` ASC))
 ENGINE = InnoDB
 COMMENT = 'ユーザー';
-

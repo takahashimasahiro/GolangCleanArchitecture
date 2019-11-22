@@ -30,19 +30,25 @@ func BootMysqlDB() *ConnectedSql {
 
 	// 接続情報
 	var err error
-	db, err := sql.Open("mysql", connectionCmd)
+	DB, err := sql.Open("mysql", connectionCmd)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// 接続確認
-	// err = db.Ping()
+	// TODO: プロキシの設定
+	// https://stackoverflow.com/questions/33893150/dial-tcp-lookup-xxx-xxx-xxx-xxx-no-such-host
+	// root:golang@tcp(mysql-container:3306)/mysql
+	// user:password@tcp(mysql:3306)/database
+	fmt.Println(DB)
+	fmt.Println(DB.Ping())
+	// err = DB.Ping()
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
 
 	// 外部のDBをConnectedSQLとして公開
-	conn := ConnectedSql{DB: db}
+	conn := ConnectedSql{DB: DB}
 
 	return &conn
 }
