@@ -6,3 +6,5 @@ CREATE TABLE `user` (
   INDEX `idx_authToken` (`auth_token` ASC))
 ENGINE = InnoDB
 COMMENT = 'ユーザー';
+
+INSERT INTO user(`name_id`, `auth_token`, `name`) value ('1', 'test', 'test_user');

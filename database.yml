@@ -1,0 +1,4 @@
+default: &default
+  adapter: mysql2
+  database: mysql
+  host: mysql_host

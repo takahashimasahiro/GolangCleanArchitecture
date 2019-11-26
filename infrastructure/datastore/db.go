@@ -20,6 +20,7 @@ func BootMysqlDB() *ConnectedSql {
 	// configからDBの読み取り
 	connectionCmd := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s",
+		// "%s:%s(%s:%s)/%s",
 		config.Conf.Database.User,
 		config.Conf.Database.Password,
 		config.Conf.Database.Host,
