@@ -1,5 +1,11 @@
 version: '3'
 services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
   db:
     image: mysql:latest
     container_name: mysql
@@ -9,13 +15,12 @@ services:
       - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
       - ./docker/mysql/conf.d:/etc/mysql/conf.d
       - ./log/mysql:/var/log/mysql
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
     environment:
         MYSQL_DATABASE: <%= ENV.fetch('MYSQL_DATABASE') %>
         MYSQL_ROOT_PASSWORD: <%= ENV.fetch('MYSQL_PASSWORD') %>
         MYSQL_DB_HOST: <%= ENV.fetch('MYSQL_HOST') %>
         MYSQL_USER: <%= ENV.fetch('MYSQL_USER') %>
         MYSQL_PASSWORD: <%= ENV.fetch('MYSQL_PASSWORD') %>
-  app:
-    build: .
-    ports:
-      - "8080:8080"
